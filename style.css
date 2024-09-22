@@ -1,0 +1,119 @@
+select{
+    display: inline-block;
+    width: 100%;
+    border-radius: 20px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.container-oficina{
+    background-color: black;
+    height: 50px;
+}
+.formBusca{
+
+    padding: 10px;
+    padding-bottom: 30px;
+}
+
+
+h1{
+    
+    color: azure;
+    text-align: center;
+}
+
+nav{
+    text-align: center;
+    background-color: gray;
+    font-size: 25px;
+    height: 30px;
+}
+
+h2{
+    text-align: center;
+}
+
+label{
+    text-align: center;
+ 
+}
+
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.card{
+    display:inline-block;
+    flex-direction: column;
+    background-color: black;
+    width: 200px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    text-align: center;
+    color: white;
+
+
+}
+img{
+    border-radius: 5px;
+    width: 90%;
+    padding-left: 10px;
+    padding-right: 5px;
+}
+
+span{
+  color:white;
+}
+
+footer{
+    text-align: center;
+
+    background-color:gainsboro
+    ;
+}
+
+.login-container{
+    background-color: white;
+    display: flex;
+    margin:  0% ;
+    height: 70vh;
+    text-align: center;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.login{
+    width: 400px;
+    display: block;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.container-cadastro{
+    background-color: white;
+    display: flex;
+    margin:  0% ;
+    height: 70vh;
+    text-align: center;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.cadastro{
+    width: 400px;
+    display: block;
+    padding: 30px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
