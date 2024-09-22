@@ -1,79 +1,80 @@
-select{
-    display: inline-block;
-    width: 100%;
-    border-radius: 20px;
-    text-align: center;
-    padding-bottom: 20px;
+/* Definindo as cores */
+:root {
+    --preto: #181818;
+    --grafite: #353535;
+    --azul-escuro: #0d1b2a;
+    --branco: #ffffff;
+    --cinza-claro: #F6F6F6;
+    --cinza-medio: #656565;
 }
 
-.container-oficina{
-    background-color: black;
-    height: 50px;
-}
-.formBusca{
-
-    padding: 10px;
-    padding-bottom: 30px;
+body {
+    font-family: "Montserrat", sans-serif;
+    background-color: var(--branco);
+    margin: 0;
+    padding: 0;
 }
 
-
-h1{
-    
-    color: azure;
-    text-align: center;
+header, footer, nav {
+    font-family: "Kanit", sans-serif;
 }
 
-nav{
-    text-align: center;
-    background-color: gray;
-    font-size: 25px;
-    height: 30px;
-}
+header {
+    background-color: var(--preto);
+    color: var(--branco);
 
-h2{
-    text-align: center;
-}
+    font-size: 1.2rem;
 
-label{
-    text-align: center;
- 
-}
+    padding: 5px;
+    height: 4rem;
 
-.container{
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
+    align-items: center;
 }
-.card{
-    display:inline-block;
+
+nav {
+    background-color: var(--grafite);
+    color: var(--branco);
+
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+}
+
+main {
+    padding: 1rem;
+}
+
+footer {
+    display: flex;
     flex-direction: column;
-    background-color: black;
-    width: 200px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-radius: 10px;
-    font-size: 15px;
+    justify-content: center;
+    gap: 0.25rem;
+
+    background-color: var(--preto);
+    color: var(--branco);
     text-align: center;
-    color: white;
-
-
+    padding: 0.8rem 0;
 }
-img{
+
+footer div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+footer div span:nth-child(odd) {
+    font-weight: bold;
+}
+
+select {
     border-radius: 5px;
-    width: 90%;
-    padding-left: 10px;
-    padding-right: 5px;
-}
+    
+    height: 2rem;
 
-span{
-  color:white;
-}
-
-footer{
-    text-align: center;
-
-    background-color:gainsboro
-    ;
+    padding-left: 5px;
 }
 
 .login-container{
@@ -117,3 +118,10 @@ footer{
     border-radius: 10px;
     text-align: center;
 }
+
+
+
+
+
+
+
