@@ -1,0 +1,11 @@
+.form-container{
+    text-align: center;
+    justify-content: space-evenly;
+  }
+
+
+.form-interesse{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}

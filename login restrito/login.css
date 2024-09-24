@@ -1,0 +1,8 @@
+.nav-restrita>a{
+ padding: 10px;
+ color: white;
+}
+
+#cards{
+    display: none;
+}
