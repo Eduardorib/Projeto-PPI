@@ -1,0 +1,33 @@
+body {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  background: url("../images/homeImage.jpg");
+  background-size: cover;
+  background-position: right 30% bottom 20%;
+
+  flex: 1;
+
+  position: relative;
+}
+
+.pageTitle {
+  position: absolute;
+
+  top: 10rem;
+  left: 3rem;
+
+  font-family: "Kanit", sans-serif;
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: 2.5rem;
+  }
+}
