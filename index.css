@@ -38,11 +38,12 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
+  justify-items: center;
 
   padding: 2rem;
 }
 
-.card{
+.carCard{
   display: flex;
   flex-direction: column;
 
@@ -65,7 +66,7 @@
   font-weight: bold;
 }
 
-.card img {
+.carCard img {
   width: 100%;
   height: auto;
   border-radius: 5px;
@@ -100,7 +101,7 @@
     padding: 1rem;
   }
 
-  .card {
+  .carCard {
     max-width: 100%; 
   }
   
@@ -153,7 +154,8 @@
     padding: 1rem;
   }
 
-  .card {
+  .carCard {
+    max-width: 100%;
     padding: 1rem;
     font-size: 1rem;
   }
