@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="./listagem.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
@@ -15,7 +15,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../login restrito/login.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body>
@@ -23,30 +24,49 @@
         <h1>Obsidian Motors</h1>
     </header>
 
-    <nav class="nav-restrita">
-        <a>Criar anuncio</a>
-        <a href="../login/login.html">Logoff</a>
+    <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Criar Anúncio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="../cadastro/cadastro.html">Listagem de anúncios</a>
+                    </li>
+                </ul>
+                <button>Logout</button>
+            </div>
+        </div>
     </nav>
 
     <main>
-        <button onclick="mostrarDivs()">Listar Anuncios feitos</button>
-        <div class="cardsContainer" id="cards">
-            <div class="card" id="card1">
-                <p class="cardTitle">Lamborguini</p>
-                <img src="../images/carro.jpeg" alt="carro brabo">
+        <h1>Seus anúncios</h1>
 
-                <div class="cardInfo">
+        <div class="anunciosContainer" id="cards">
+            <div class="anuncio" id="card1">
+                <img src="../images/carro.jpeg" alt="carro brabo">
+                <div class="anuncioInfo">
+                    <h2 class="anuncioTitle">Lamborguini</h2>
                     <div>
                         <span>Descrição:</span>
                         <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta, impedit. Nisi, saepe.
                             Officia
-                            voluptate, aperiam debitis quas natus soluta similique est, quidem itaque, aspernatur a quos
+                            voluptate, aperiam debitis quas natus soluta similique est, quidem itaque, aspernatur a
+                            quos
                             doloribus doloremque omnis dolorem.</span>
                     </div>
 
                     <div>
-                        <span>Ano:</span>
-                        <span>2023</span>
+                        <span>Marca:</span>
+                        <span>Lamborghini</span>
                     </div>
 
                     <div>
@@ -57,36 +77,35 @@
                         <span>Ano:</span>
                         <span>2023</span>
                     </div>
+
                     <div>
-                        <span>Cidade:</span>
-                        <span>Franca</span>
-                    </div>
-                    <div>
-                        <span>valor:</span>
-                        <span>R$: 99.999,99</span>
+                        <a href="../">Interesses no anuncio</a>
+                        <a href="../">Vizualizacao detalhada</a>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            onclick="setCardId('card1')" data-bs-target="#exampleModal">
+                            Excluir anúncio
+                        </button>
                     </div>
                 </div>
-                <a href="../">Interesses no anuncio</a>
-                <a href="../">Vizualizacao detalhada</a>
-                <button onclick="excluir('card1')">excluir anuncio</button>
+
             </div>
 
-            <div class="card" id="card2">
-                <p class="cardTitle">Lamborguini</p>
+            <div class="anuncio" id="card2">
                 <img src="../images/carro.jpeg" alt="carro brabo">
-
-                <div class="cardInfo">
+                <div class="anuncioInfo">
+                    <h2 class="anuncioTitle">Lamborguini</h2>
                     <div>
                         <span>Descrição:</span>
                         <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta, impedit. Nisi, saepe.
                             Officia
-                            voluptate, aperiam debitis quas natus soluta similique est, quidem itaque, aspernatur a quos
+                            voluptate, aperiam debitis quas natus soluta similique est, quidem itaque, aspernatur a
+                            quos
                             doloribus doloremque omnis dolorem.</span>
                     </div>
 
                     <div>
-                        <span>Ano:</span>
-                        <span>2023</span>
+                        <span>Marca:</span>
+                        <span>Lamborghini</span>
                     </div>
 
                     <div>
@@ -97,37 +116,35 @@
                         <span>Ano:</span>
                         <span>2023</span>
                     </div>
+
                     <div>
-                        <span>Cidade:</span>
-                        <span>Franca</span>
-                    </div>
-                    <div>
-                        <span>valor:</span>
-                        <span>R$: 99.999,99</span>
+                        <a href="../">Interesses no anuncio</a>
+                        <a href="../">Vizualizacao detalhada</a>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            onclick="setCardId('card2')" data-bs-target="#exampleModal">
+                            Excluir anúncio
+                        </button>
                     </div>
                 </div>
-                <a href="../">Interesses no anuncio</a>
-                <a href="../">Vizualizacao detalhada</a>
-                <button onclick="excluir('card2')">excluir anuncio</button>
+
             </div>
 
-
-            <div class="card" id="card3">
-                <p class="cardTitle">Lamborguini</p>
+            <div class="anuncio" id="card3">
                 <img src="../images/carro.jpeg" alt="carro brabo">
-
-                <div class="cardInfo">
+                <div class="anuncioInfo">
+                    <h2 class="anuncioTitle">Lamborguini</h2>
                     <div>
                         <span>Descrição:</span>
                         <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta, impedit. Nisi, saepe.
                             Officia
-                            voluptate, aperiam debitis quas natus soluta similique est, quidem itaque, aspernatur a quos
+                            voluptate, aperiam debitis quas natus soluta similique est, quidem itaque, aspernatur a
+                            quos
                             doloribus doloremque omnis dolorem.</span>
                     </div>
 
                     <div>
-                        <span>Ano:</span>
-                        <span>2023</span>
+                        <span>Marca:</span>
+                        <span>Lamborghini</span>
                     </div>
 
                     <div>
@@ -138,27 +155,74 @@
                         <span>Ano:</span>
                         <span>2023</span>
                     </div>
+
                     <div>
-                        <span>Cidade:</span>
-                        <span>Franca</span>
-                    </div>
-                    <div>
-                        <span>valor:</span>
-                        <span>R$: 99.999,99</span>
+                        <a href="../">Interesses no anuncio</a>
+                        <a href="../">Vizualizacao detalhada</a>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            onclick="setCardId('card3')" data-bs-target="#exampleModal">
+                            Excluir anúncio
+                        </button>
                     </div>
                 </div>
-                <a href="../">Interesses no anuncio</a>
-                <a href="../">Vizualizacao detalhada</a>
-                <button onclick="excluir('card3')">excluir anuncio</button>
+
             </div>
 
+            <div class="anuncio" id="card4">
+                <img src="../images/carro.jpeg" alt="carro brabo">
+                <div class="anuncioInfo">
+                    <h2 class="anuncioTitle">Lamborguini</h2>
+                    <div>
+                        <span>Descrição:</span>
+                        <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta, impedit. Nisi, saepe.
+                            Officia
+                            voluptate, aperiam debitis quas natus soluta similique est, quidem itaque, aspernatur a
+                            quos
+                            doloribus doloremque omnis dolorem.</span>
+                    </div>
 
-            
+                    <div>
+                        <span>Marca:</span>
+                        <span>Lamborghini</span>
+                    </div>
 
+                    <div>
+                        <span>Modelo:</span>
+                        <span>Modelo</span>
+                    </div>
+                    <div>
+                        <span>Ano:</span>
+                        <span>2023</span>
+                    </div>
+
+                    <div>
+                        <a href="../">Interesses do anúncio</a>
+                        <a href="../">Visualizacao detalhada</a>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            onclick="setCardId('card4')" data-bs-target="#exampleModal">
+                            Excluir anúncio
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
-
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Deseja excluir esse anúncio?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        onclick="excluir()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div>
@@ -181,20 +245,23 @@
 </body>
 
 <script>
-    function mostrarDivs() {
-        var divs = document.getElementById("cards");
-        if (divs.style.display === "none" || divs.style.display === "") {
-            divs.style.display = "flex"; // Exibe as divs
-        } else {
-            divs.style.display = "none"; // Oculta as divs
+    let cardId = '';
+
+    function setCardId(id) {
+        cardId = id;
+    }
+
+    function excluir() {
+        var div = document.getElementById(cardId);
+        if (div) {
+            div.remove();
         }
     }
 
-    function excluir(id){
-        var divs = document.getElementById(id);
-        divs.remove();
-    }
-
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
 
 </html>

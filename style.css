@@ -5,7 +5,7 @@
     --azul-escuro: #0d1b2a;
     --vermelho: #c1121f;
     --branco: #ffffff;
-    --cinza-claro: #F6F6F6;
+    --cinza-claro: #dedede;
     --cinza-medio: #656565;
 }
 
@@ -100,6 +100,9 @@ select:focus, input:focus {
 }
 
 .buttonMain {
+    display: flex;
+    align-items: center;
+
     padding: 0.1rem 2rem;
   
     height: 2rem;
@@ -111,6 +114,7 @@ select:focus, input:focus {
   
     transition: background-color 0.3s;
 }
+
 
 .buttonMain:hover {
     cursor: pointer;
