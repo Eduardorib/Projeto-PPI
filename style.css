@@ -3,10 +3,15 @@
     --preto: #181818;
     --grafite: #353535;
     --azul-escuro: #0d1b2a;
+    --vermelho: #c1121f;
     --branco: #ffffff;
     --cinza-claro: #F6F6F6;
     --cinza-medio: #656565;
 }
+
+html {
+    font-size: 16px;
+  }
 
 body {
     font-family: "Montserrat", sans-serif;
@@ -70,6 +75,9 @@ footer div span:nth-child(odd) {
 }
 
 select {
+    border: 1px solid var(--cinza-medio);
+    background-color: var(--cinza-claro);
+
     border-radius: 5px;
     
     height: 2rem;
@@ -77,50 +85,107 @@ select {
     padding-left: 5px;
 }
 
-.login-container{
-    background-color: white;
+select:focus {
+    outline: none;
+}
+
+.formGroup {
     display: flex;
-    margin:  0% ;
-    height: 70vh;
-    text-align: center;
-    border-radius: 20px;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.buttonMain {
+    padding: 0.1rem 2rem;
+  
+    height: 2rem;
+  
+    background-color: var(--preto);
+    color: var(--branco);
+    border: none;
+    border-radius: 5px;
+  
+    transition: background-color 0.3s;
+}
+
+.buttonMain:hover {
+    cursor: pointer;
+    background-color: var(--vermelho);
+}
+
+.authContainer {
+    display: flex;
+    padding: 0;
+
+    width: 100%;
+    height: calc(100vh - 4rem);
+}
+
+.authContainer img {
+    width: 50%;
+    height: auto;
+
+    object-fit: cover;
+}
+
+.auth {
+    width: 50%;
+
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.login{
-    width: 400px;
-    display: block;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    text-align: center;
-}
+.authForm {
+    width: 50%;
 
-.container-cadastro{
-    background-color: white;
     display: flex;
-    margin:  0% ;
-    height: 70vh;
-    text-align: center;
-    border-radius: 20px;
-    justify-content: center;
+    flex-direction: column;
+
+    gap: 1rem;
+
     align-items: center;
 }
 
-.cadastro{
-    width: 400px;
-    display: block;
-    padding: 30px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    text-align: center;
+.authForm form {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
+.authForm a {
+    color: var(--grafite);
+    text-decoration: none;
 
+    font-size: 0.9rem;
+}
 
+  /* Para telas menores, diminuímos o tamanho da fonte base */
+  @media (max-width: 1200px) {
+    html {
+      font-size: 15px; 
+    }
+  }
+  
+  @media (max-width: 992px) {
+    html {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    html {
+      font-size: 13px; 
+    }
+  }
+  
+  @media (max-width: 576px) {
+    html {
+      font-size: 12px; 
+    }
+  }
 
 
 
