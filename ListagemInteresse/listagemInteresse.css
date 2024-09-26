@@ -1,0 +1,55 @@
+.anunciosInteresseContainer{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width:60%;
+}
+
+
+.cardInteresse{
+    
+    background-color:var(--cinza-claro);
+    border-radius: 10px;
+    width: 300px;
+    padding: 10px;
+    margin: 10px;
+    overflow-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+}
+
+.campos{
+
+    padding: 10px;
+    font-size: 1.3rem;
+}
+
+.anuncioInteresseTitle{
+
+    padding: 10px;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main{
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .anuncioInteresseContainer {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cardInteresse{
+        width: 90%;
+    }
+  
+  
+  }
