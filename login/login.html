@@ -52,7 +52,7 @@
         <div class="auth">
             <div class="authForm">
                 <h2>Login</h2>
-                <form action="/login" method="POST">
+                <form>
                     <div class="formGroup">
                         <label for="email">E-mail</label>
                         <input id="email" type="email" name="email" placeholder="Digite seu E-mail" required>
@@ -60,11 +60,10 @@
 
                     <div class="formGroup">
                         <label for="password">Senha</label>
-                        <input id="password" type="password" name="password" placeholder="Digite sua senha" required>
+                        <input id="senha" type="password" name="senha" placeholder="Digite sua senha" required>
                     </div>
 
-
-                    <button class="buttonMain" type="submit">Entrar</button>
+                    <button id="buttonSubmit" class="buttonMain" type="submit">Entrar</button>
                 </form>
                 <a href="#">Esqueceu a senha?</a>
             </div>
@@ -75,6 +74,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+    <script src="login.js"></script>
 </body>
 
 </html>

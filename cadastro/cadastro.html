@@ -50,7 +50,7 @@
         <div class="auth">
             <div class="authForm">
                 <h2>Cadastro</h2>
-                <form action="/login" method="POST">
+                <form>
                     <div class="formGroup">
                         <label for="nome">Nome Completo</label>
                         <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
@@ -91,33 +91,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-    <script>
-        async function submeteForm() {
-            let form = document.querySelector("form")
-
-            let formData = new FormData(form);
-
-            const options = {
-                method: "POST",
-                body: formData
-            }
-
-            let response = await fetch("../controladorPHP.php?acao=adicionarCliente", options);
-
-            if (!response.ok) {
-                errorMessage = await response.text();
-                throw new Error(response.statusText + errorMessage);
-            }
-
-            console.log(response)
-        }
-
-        window.onload = function () {
-            const botaoSubmit = document.querySelector("#buttonSubmit");
-            botaoSubmit.onclick = () => submeteForm();
-        }
-
-    </script>
+    <script src='cadastro.js'></script>
 </body>
 
 </html>

@@ -1,63 +1,69 @@
 <?php
 
+error_reporting(E_ALL); // Relatar todos os tipos de erro
+ini_set('display_errors', 1); // Exibir os erros
+
+
 class Anunciante
 {
   static function Create($pdo, $nome, $cpf, $email, $senhaHash, $telefone)
   {
+    try {
+    $stmtCpf = $pdo->prepare("SELECT COUNT(*) FROM anunciante WHERE cpf = ?");
+    $stmtCpf->execute([$cpf]);
+    if ($stmtCpf->fetchColumn() > 0) {
+        throw new Exception("O CPF já está em uso.");
+    }
+
+    $stmtEmail = $pdo->prepare("SELECT COUNT(*) FROM anunciante WHERE email = ?");
+    $stmtEmail->execute([$email]);
+    if ($stmtEmail->fetchColumn() > 0) {
+        throw new Exception("O email já está em uso.");
+    }
+
     $stmt = $pdo->prepare(
       <<<SQL
       INSERT INTO anunciante (nome, cpf, email, senhaHash, telefone)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?)
       SQL
     );
 
     $stmt->execute([$nome, $cpf, $email, $senhaHash, $telefone]);
 
     return $pdo->lastInsertId();
+
+    } catch (Exception $e) {
+      echo json_encode(['error' => true, 'message' => $e->getMessage()]);
+      exit;
+    }
   }
 
-  static function Get($pdo, $id)
+  static function Login($pdo, $email, $senha)
   {
-    $stmt = $pdo->prepare(
-      <<<SQL
-      SELECT id, nome, cpf, email, senhaHash, telefone
-      FROM anunciante
-      WHERE id = ?
-      SQL
-    );
+    try {
+        $stmt = $pdo->prepare(
+          <<<SQL
+          SELECT senhaHash, id
+          FROM anunciante
+          WHERE email = ?
+          SQL
+        );
 
-    $stmt->execute([$id]);
-    if ($stmt->rowCount() == 0)
-      throw new Exception("Anunciante não localizado");
+        $stmt->execute([$email]);
+        $result = $stmt->fetch(PDO::FETCH_OBJ);
 
-    $anunciante = $stmt->fetch(PDO::FETCH_OBJ);
-    return $anunciante;
-  }
+        if (!$result) {
+          throw new Exception("E-mail não encontrado.");
+        }
 
-  static function GetFirst30($pdo)
-  {
-    $stmt = $pdo->query(
-      <<<SQL
-      SELECT id, nome, cpf, email, senhaHash, telefone
-      FROM anunciante
-      LIMIT 30
-      SQL
-    );
-
-    $arrayAnunciantes = $stmt->fetchAll(PDO::FETCH_OBJ);
-    return $arrayAnunciantes;
-  }
-
-  public static function Remove($pdo, $id)
-  {
-    $sql = <<<SQL
-    DELETE 
-    FROM anunciante
-    WHERE id = ?
-    LIMIT 1
-    SQL;
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
+        if (!password_verify($senha, $result->senhaHash)) {
+          throw new Exception("Senha incorreta inserida.");
+        }
+          
+        return $result->id;
+    } catch (Exception $e) {
+        echo json_encode(['error' => true, 'message' => $e->getMessage()]);
+        exit;
+    }
   }
 }
