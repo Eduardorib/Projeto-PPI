@@ -218,10 +218,6 @@ async function preencheCards(veiculos) {
 
     let dataFotos = await responseFotos.json();
 
-    if (!dataFotos) {
-      continue;
-    }
-
     carCard.innerHTML = `
           <img src="images/${dataFotos[0].nomeArqFoto}" alt="carro brabo">
 
