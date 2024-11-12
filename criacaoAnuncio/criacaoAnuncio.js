@@ -12,7 +12,7 @@ async function submeteForm(e) {
     };
 
     let response = await fetch(
-      "../controladorPHP.php?acao=adicionarAnunciante",
+      "../controladorPrivado.php?acao=adicionarAnuncio",
       options
     );
 
@@ -22,12 +22,15 @@ async function submeteForm(e) {
 
     let data = await response.json();
 
+    console.log(data);
+
     if (data.error) {
       alert(data.message);
       return;
     }
 
     if (data.redirect) {
+      alert("Anúncio criado com sucesso!");
       window.location.href = data.redirect;
     }
   } catch (e) {
@@ -37,6 +40,15 @@ async function submeteForm(e) {
 }
 
 window.onload = function () {
-  const botaoSubmit = document.querySelector("#buttonSubmit");
+  const botaoSubmit = document.querySelector("#botaoCadastro");
   botaoSubmit.onclick = (e) => submeteForm(e);
+
+  const uploader = document.querySelector("#fileInput");
+  const error = document.querySelector("#error");
+
+  uploader.addEventListener("change", function () {
+    if (uploader.files.length < 3) {
+      error.style.display = "block";
+    }
+  });
 };

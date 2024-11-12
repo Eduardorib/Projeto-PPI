@@ -6,62 +6,21 @@ ini_set('display_errors', 1); // Exibir os erros
 
 class Anuncios
 {
-  
-   
-  static function Create($pdo, $modelo, $ano, $cor, $quilometragem, $descricao,$valor,$estado,$cidade)
+  static function Create($pdo, $marca, $modelo, $ano, $cor, $quilometragem, $descricao,$valor, $dataHora, $estado, $cidade, $id)
   {
-    $id = $_SESSION['id'];
-    $fotos = $_FILES['fileinput'];
+    try{
+      $stmt = $pdo->prepare(
+        <<<SQL
+        INSERT INTO anuncio (marca, modelo, ano, cor, quilometragem, descricao, valor, dataHora, estado, cidade, idAnunciante)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        SQL
+      );
 
-try{
-    $pdo->beginTransaction();
+      $stmt->execute([$marca, $modelo, $ano, $cor, $quilometragem, $descricao,$valor,$dataHora,$estado,$cidade,$id]);
 
-    $dataHora = date('Y-m-d H:i:s');
-
-    $stmt = $pdo->prepare(
-      <<<SQL
-      INSERT INTO anuncio (marca, modelo, ano, cor, quilometragem, descricao, valor, dataHora, estado, cidade, idAnunciante)
-      VALUES (?, ?, ?, ?, ?,?,?,?,?,?,?)
-      SQL
-    );
-
-    $stmt->execute([$modelo, $ano, $cor, $quilometragem, $descricao,$valor,$dataHora,$estado,$cidade,$id]);
-
-    $idAnuncio = $pdo->lastInsertId();
-    $pastaFotos = '../fotos/';
-
-    if (!is_dir($pastaFotos)) {
-        mkdir($pastaFotos, 0777, true);
-    }
-    $stmtFoto = $pdo->prepare("INSERT INTO foto (nomeArqFoto, idAnuncio) VALUES (:nomeArqFoto, :idAnuncio)");
-
-    
-    foreach ($fotos['tmp_name'] as $index => $tmpName) {
-       
-        if ($fotos['error'][$index] == UPLOAD_ERR_OK) {
-           
-            $extensao = pathinfo($fotos['name'][$index], PATHINFO_EXTENSION);
-
-            
-            $nomeArqFoto = uniqid() . '.' . $extensao;
-
-           
-            if (move_uploaded_file($tmpName, $pastaFotos . $nomeArqFoto)) {
-                
-                $stmtFoto->execute([
-                    ':nomeArqFoto' => $nomeArqFoto,
-                    ':idAnuncio' => $idAnuncio
-                ]);
-            }
-          }
-        }
-
-    $pdo->commit();
-    return $pdo->lastInsertId();
-
+      return $pdo->lastInsertId();
     }
      catch (Exception $e) {
-      $pdo->rollBack();
       echo json_encode(['error' => true, 'message' => $e->getMessage()]);
       exit;
     }
@@ -137,7 +96,7 @@ try{
   static function GetVeiculos($pdo, $marca, $modelo, $localidade)
   {
     try {
-      $sql = "SELECT marca, ano, modelo, descricao, cidade, valor, idAnunciante FROM anuncio";
+      $sql = "SELECT id, marca, ano, modelo, descricao, cidade, valor, idAnunciante FROM anuncio";
         
       $params = [];
       $whereConditions = [];
@@ -178,6 +137,98 @@ try{
   
       return $result;
 
+    } catch (Exception $e) {
+      echo json_encode(['error' => true, 'message' => $e->getMessage()]);
+      exit;
+    }
+  }
+
+  static function GetVeiculo($pdo, $idAnunciante, $idAnuncio)
+  {
+    try {
+      $stmt = $pdo->prepare(
+        <<<SQL
+        SELECT id, idAnunciante, marca, ano, modelo, descricao, cidade, valor
+        FROM anuncio
+        WHERE idAnunciante = ? AND id = ?
+        SQL
+      );
+
+      $stmt->execute([$idAnunciante, $idAnuncio]);
+  
+      $result = $stmt->fetch(PDO::FETCH_OBJ);
+  
+      return $result;
+
+    } catch (Exception $e) {
+      echo json_encode(['error' => true, 'message' => $e->getMessage()]);
+      exit;
+    }
+  }
+
+  static function GetVeiculoDetalhado($pdo, $idAnunciante, $idAnuncio)
+  {
+    try {
+      $stmt = $pdo->prepare(
+        <<<SQL
+        SELECT id, idAnunciante, marca, ano, modelo, descricao, cidade, estado, valor, cor, quilometragem
+        FROM anuncio
+        WHERE idAnunciante = ? AND id = ?
+        SQL
+      );
+
+      $stmt->execute([$idAnunciante, $idAnuncio]);
+  
+      $result = $stmt->fetch(PDO::FETCH_OBJ);
+  
+      return $result;
+
+    } catch (Exception $e) {
+      echo json_encode(['error' => true, 'message' => $e->getMessage()]);
+      exit;
+    }
+  }
+
+  static function GetVeiculosById($pdo, $idAnunciante)
+  {
+    try {
+      $stmt = $pdo->prepare(
+        <<<SQL
+        SELECT id, idAnunciante, marca, ano, modelo, descricao, cidade, valor
+        FROM anuncio
+        WHERE idAnunciante = ?
+        SQL
+      );
+
+      $stmt->execute([$idAnunciante]);
+  
+      $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+  
+      return $result;
+
+    } catch (Exception $e) {
+      echo json_encode(['error' => true, 'message' => $e->getMessage()]);
+      exit;
+    }
+  }
+
+  static function DeleteAnuncio($pdo, $idAnuncio)
+  {
+    try {
+      $stmt = $pdo->prepare(
+        <<<SQL
+        DELETE FROM anuncio 
+        WHERE id = ?
+        SQL
+      );
+
+      $stmt->execute([$idAnuncio]);
+  
+      if ($stmt->rowCount() > 0) {
+        return ['success' => true, 'message' => 'Anúncio excluído com sucesso'];
+      } else {
+        return ['success' => false, 'message' => 'Nenhum anúncio encontrado com esse ID'];
+      }
     } catch (Exception $e) {
       echo json_encode(['error' => true, 'message' => $e->getMessage()]);
       exit;

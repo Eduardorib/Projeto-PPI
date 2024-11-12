@@ -5,6 +5,8 @@ ini_set('display_errors', 1); // Exibir os erros
 require "conexaoSQL.php";
 require "php/anunciante.php";
 require "php/anuncios.php";
+require "php/interesse.php";
+require "php/fotos.php";
 
 
 $acao = $_GET['acao'] ?? "";
@@ -119,14 +121,12 @@ switch ($acao) {
     case "redirecionarInteresse":
       //--------------------------------------------------------------------------------------   
       try {
-        $id = $_POST['idAnunciante'] ?? '';
-
-        $cookieParams = session_get_cookie_params();
-        $cookieParams['httponly'] = true;
-        session_set_cookie_params($cookieParams);
+        $idAnunciante = $_POST['idAnunciante'] ?? '';
+        $idAnuncio = $_POST['idAnuncio'] ?? '';
 
         session_start();
-        $_SESSION['idAnunciante'] = $id;
+        $_SESSION['idAnunciante'] = $idAnunciante;
+        $_SESSION['idAnuncio'] = $idAnuncio;
 
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode(['redirect' => 'RegistroInteresse/interesse.html']);
@@ -134,9 +134,72 @@ switch ($acao) {
         throw new Exception($e->getMessage());
       }
       break;
-  
-    default:
+
+    case "getAnuncioRedirect":
+      //--------------------------------------------------------------------------------------   
+      try {
+        session_start();
+        $idAnunciante = $_SESSION['idAnunciante'];
+        $idAnuncio = $_SESSION['idAnuncio'];
+
+        $veiculo = Anuncios::GetVeiculo($pdo, $idAnunciante, $idAnuncio);
+
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($veiculo);
+      } catch (Exception $e) {
+        throw new Exception($e->getMessage());
+      }
       break;
+
+    case "registrarInteresse":
+      //--------------------------------------------------------------------------------------
+      try {
+        $nome = $_POST["nome"] ?? "";
+        $telefone = $_POST["telefone"] ?? "";
+        $mensagem = $_POST["mensagem"] ?? "";
+        $dataHora = $_POST["dataHora"] ?? "";
+        $idAnuncio = $_POST["idAnuncio"] ?? "";
+
+        Interesse::PostInteresse($pdo, $idAnuncio, $telefone, $mensagem, $dataHora, $nome);
+
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['redirect' => '../index.html']);
+      } catch (Exception $e) {
+        throw new Exception($e->getMessage());
+      }  
+    break;
+    case "fotosAnuncio":
+      //--------------------------------------------------------------------------------------    
+      $idAnuncio = $_POST['idAnuncio'];
+  
+      try {
+          $fotos = Foto::GetAll($pdo, $idAnuncio);
+  
+          header('Content-Type: application/json; charset=utf-8');
+          echo json_encode($fotos);
+        } catch (Exception $e) {
+          throw new Exception($e->getMessage());
+        }
+    break;
+    case "verificaLogin":
+      //--------------------------------------------------------------------------------------
+      try {
+        session_start();
+
+        header('Content-Type: application/json; charset=utf-8');
+
+        if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
+          echo json_encode(['loggedIn' => true]);
+        } else {
+          echo json_encode(['loggedIn' => false]);
+        }
+      } catch (Exception $e) {
+        throw new Exception($e->getMessage());
+      }  
+    break;
+    
+    default:
+    break;
   }
 
 

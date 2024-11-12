@@ -8,6 +8,7 @@ const cardsContainer = document.querySelector(".cardsContainer");
 
 window.onload = async function () {
   await getMarcas();
+  await getVeiculos();
 
   marcaSelect.onchange = (e) => getModelos(e.target.value);
   modeloSelect.onchange = (e) =>
@@ -42,11 +43,20 @@ async function getModelos(value) {
   if (!value) {
     modeloSelect.innerHTML = "";
 
-    const option = document.createElement("option");
-    option.value = "";
-    option.textContent = "Selecione o modelo";
+    const option1 = document.createElement("option");
+    option1.value = "";
+    option1.textContent = "Selecione o modelo";
 
-    modeloSelect.appendChild(option);
+    modeloSelect.appendChild(option1);
+
+    localidadesSelect.innerHTML = "";
+
+    const option2 = document.createElement("option");
+
+    option2.value = "";
+    option2.textContent = "Selecione a localidade";
+    localidadesSelect.appendChild(option2);
+
     return;
   }
 
@@ -75,6 +85,14 @@ async function getModelos(value) {
     option.textContent = "Selecione o modelo";
 
     modeloSelect.appendChild(option);
+
+    localidadesSelect.innerHTML = "";
+
+    const option2 = document.createElement("option");
+
+    option2.value = "";
+    option2.textContent = "Selecione a localidade";
+    localidadesSelect.appendChild(option2);
 
     for (let i = 0; i < data.length; i++) {
       const option = document.createElement("option");
@@ -142,8 +160,10 @@ async function getLocalidades(modelo, marca) {
   }
 }
 
-async function getVeiculos(e) {
-  e.preventDefault();
+async function getVeiculos(e = null) {
+  if (e) {
+    e.preventDefault();
+  }
 
   let marca = marcaSelect.value;
   let modelo = modeloSelect.value;
@@ -175,15 +195,35 @@ async function getVeiculos(e) {
   }
 }
 
-function preencheCards(veiculos) {
+async function preencheCards(veiculos) {
   cardsContainer.innerHTML = "";
 
   for (i = 0; i < veiculos.length; i++) {
     const carCard = document.createElement("div");
     carCard.classList.add("carCard");
 
+    const dados = new FormData();
+
+    dados.append("idAnuncio", veiculos[i].id);
+
+    const options = {
+      method: "POST",
+      body: dados,
+    };
+
+    let responseFotos = await fetch(
+      "controladorPHP.php?acao=fotosAnuncio",
+      options
+    );
+
+    let dataFotos = await responseFotos.json();
+
+    if (!dataFotos) {
+      continue;
+    }
+
     carCard.innerHTML = `
-          <img src="images/carro.jpeg" alt="carro brabo">
+          <img src="images/${dataFotos[0].nomeArqFoto}" alt="carro brabo">
 
           <div class="cardInfo">
               <div>
@@ -218,26 +258,26 @@ function preencheCards(veiculos) {
               
           </div>
           
-          <button class="buttonMain" id="buttonInteresse${veiculos[i].idAnunciante}" >Tenho Interesse</button>
+          <button class="buttonMain" id="buttonInteresse${i}" >Tenho Interesse</button>
           `;
 
     cardsContainer.appendChild(carCard);
 
     const idAnunciante = veiculos[i].idAnunciante;
+    const idAnuncio = veiculos[i].id;
 
-    const buttonInteresse = document.querySelector(
-      `#buttonInteresse${idAnunciante}`
-    );
+    const buttonInteresse = document.querySelector(`#buttonInteresse${i}`);
 
-    buttonInteresse.onclick = function (idAnunciante) {
-      redirecionarInteresse(idAnunciante);
+    buttonInteresse.onclick = function () {
+      redirecionarInteresse(idAnunciante, idAnuncio);
     };
   }
 }
 
-async function redirecionarInteresse(idAnunciante) {
+async function redirecionarInteresse(idAnunciante, idAnuncio) {
   const dados = new FormData();
   dados.append("idAnunciante", idAnunciante);
+  dados.append("idAnuncio", idAnuncio);
 
   const options = {
     method: "POST",
@@ -246,11 +286,9 @@ async function redirecionarInteresse(idAnunciante) {
 
   try {
     let response = await fetch(
-      "controladorPHP.php?acao=redirecionaInteresse",
+      "controladorPHP.php?acao=redirecionarInteresse",
       options
     );
-
-    console.log(response);
 
     if (!response.ok) {
       throw new Error(`Erro HTTP: ${response.status}`);

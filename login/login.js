@@ -6,14 +6,15 @@ async function submeteForm(e) {
 
     let formData = new FormData(form);
 
-    formData.append("acao", "loginAnunciante");
-
     const options = {
       method: "POST",
       body: formData,
     };
 
-    let response = await fetch("../controladorPHP.php", options);
+    let response = await fetch(
+      "../controladorPHP.php?acao=loginAnunciante",
+      options
+    );
 
     if (!response.ok) {
       throw new Error(`Erro HTTP: ${response.status}`);

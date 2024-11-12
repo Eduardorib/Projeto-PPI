@@ -42,18 +42,18 @@
                         <a class="nav-link" href="../listagemAnuncios/listagem.html">Listagem de anúncios</a>
                     </li>
                 </ul>
-                <button>Logout</button>
+                <button class="buttonMain" id="logout">Logout</button>
             </div>
         </div>
     </nav>
 
     <main>
-        <form action="/controladorPrivado.php" method="post" enctype="multipart/form-data">
+        <form enctype="multipart/form-data">
             <h1>Criar Anúncio</h1>
 
             <div class="formGroup">
                 <label for="email">Marca</label>
-                <input type="text" name="email" id="email" required>
+                <input type="text" name="marca" id="marca" required>
             </div>
 
             <div class="formGroup">
@@ -103,7 +103,7 @@
 
             <div class="formGroup">
                 <label for="fileInput">Selecione 3 imagens</label>
-                <input id="fileInput" type="file" accept="image/png, image/jpeg" name="fileInput" multiple required>
+                <input id="fileInput" type="file" accept="image/png, image/jpeg" name="fileInput[]" multiple required>
                 <span id="error">Selecione mais imagens</span>
             </div>
 
@@ -130,20 +130,11 @@
         </div>
     </footer>
 
-    <script>
-        var uploader = document.querySelector("#fileInput");
-        var error = document.querySelector("#error");
-
-        uploader.addEventListener("change", function () {
-            if (uploader.files.length < 3) {
-                error.style.display = "block";
-            }
-        });
-    </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+    <script src="criacaoAnuncio.js"></script>
 
 </body>
 
