@@ -48,7 +48,7 @@
     </nav>
 
     <main>
-        <form action="/anuncio" method="post">
+        <form action="/controladorPrivado.php" method="post" enctype="multipart/form-data">
             <h1>Criar Anúncio</h1>
 
             <div class="formGroup">
@@ -107,7 +107,7 @@
                 <span id="error">Selecione mais imagens</span>
             </div>
 
-            <button class="buttonMain">Cadastrar</button>
+            <button class="buttonMain" id="botaoCadastro">Cadastrar</button>
         </form>
     </main>
 
