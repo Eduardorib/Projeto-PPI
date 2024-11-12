@@ -7,16 +7,7 @@ require "php/anunciante.php";
 require "php/anuncios.php";
 
 
-$acaoPost = $_POST['acao'] ?? "";
-$acaoGet = $_GET['acao'] ?? "";
-
-if ($acaoPost != "") {
-  $acao = $acaoPost;
-} else if ($acaoGet != "") {
-  $acao = $acaoGet;
-} else {
-  $acao = "";
-}
+$acao = $_GET['acao'] ?? "";
 
 $pdo = mysqlConnect();
 
@@ -58,7 +49,6 @@ switch ($acao) {
         $_SESSION['loggedIn'] = true;
         $_SESSION['user'] = $email;
         $_SESSION['id'] = $id;
-        // $_SESSION['nome'] = Anunciante::GetNomeByEmail($pdo, $email);
 
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode(['redirect' => '../paginaInterna/paginaInterna.html']);
@@ -67,36 +57,87 @@ switch ($acao) {
       throw new Exception($e->getMessage());
     }
     break;
-
-  case "getMarcas":
-    //--------------------------------------------------------------------------------------   
-    try {
-      $marcas = Anuncios::GetMarcas($pdo);
-
-      header('Content-Type: application/json; charset=utf-8');
-      echo json_encode($marcas);
-    } catch (Exception $e) {
-      throw new Exception($e->getMessage());
-    }
-    break;
-      
     
-  case "getModelos":
-    //--------------------------------------------------------------------------------------   
-    try {
-      $modelos = Anuncios::GetModelos($pdo, $marca);
+    case "getMarcas":
+      //--------------------------------------------------------------------------------------   
+      try {
+        $marcas = Anuncios::GetMarcas($pdo);
+  
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($marcas);
+      } catch (Exception $e) {
+        throw new Exception($e->getMessage());
+      }
+      break;
 
-      header('Content-Type: application/json; charset=utf-8');
-      echo json_encode($modelos);
-    } catch (Exception $e) {
-      throw new Exception($e->getMessage());
-    }
-    break;
+    case "getModelos":
+      //--------------------------------------------------------------------------------------   
+      try {
+        $marca = $_POST['marca'] ?? '';
+  
+        $modelos = Anuncios::GetModelos($pdo, $marca);
+  
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($modelos);
+      } catch (Exception $e) {
+        header('Content-Type: application/json; charset=utf-8');
+        throw new Exception($e->getMessage());
+      }
+      break;
 
-  case "getLocalidades":
-    //--------------------------------------------------------------------------------------   
-    break;
+    case "getLocalidades":
+      //--------------------------------------------------------------------------------------   
+      try {
+        $marca = $_POST['marca'] ?? '';
+        $modelo = $_POST['modelo'] ?? '';
+  
+        $localidades = Anuncios::GetLocalidades($pdo, $marca, $modelo);
+  
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($localidades);
+      } catch (Exception $e) {
+        throw new Exception($e->getMessage());
+      }
+      break;
 
-  default:
-    exit("Ação não disponível");
-}
+    case "getVeiculos":
+      //--------------------------------------------------------------------------------------   
+      try {
+        $marca = $_POST['marca'] ?? '';
+        $modelo = $_POST['modelo'] ?? '';
+        $localidade = $_POST['localidade'] ?? '';
+  
+        $veiculos = Anuncios::GetVeiculos($pdo, $marca, $modelo, $localidade);
+  
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($veiculos);
+      } catch (Exception $e) {
+        throw new Exception($e->getMessage());
+      }
+      break;
+
+    case "redirecionarInteresse":
+      //--------------------------------------------------------------------------------------   
+      try {
+        $id = $_POST['idAnunciante'] ?? '';
+
+        $cookieParams = session_get_cookie_params();
+        $cookieParams['httponly'] = true;
+        session_set_cookie_params($cookieParams);
+
+        session_start();
+        $_SESSION['idAnunciante'] = $id;
+
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['redirect' => 'RegistroInteresse/interesse.html']);
+      } catch (Exception $e) {
+        throw new Exception($e->getMessage());
+      }
+      break;
+  
+    default:
+      break;
+  }
+
+
+

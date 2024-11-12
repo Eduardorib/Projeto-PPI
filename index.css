@@ -1,3 +1,18 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+main {
+  flex-grow: 1;
+}
+
+footer {
+  margin-top: auto; 
+}
+
 /* Busca */
 
 .containerBusca {
@@ -46,6 +61,7 @@
 .carCard{
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 
   width: 100%; 
   max-width: 20rem;
@@ -73,8 +89,6 @@
 }
 
 .cardInfo {
-  margin-top: 1rem;
-
   display: flex;
   flex-direction: column;
 
@@ -93,7 +107,6 @@
 .cardInfo div span:nth-child(2) {
   color: var(--cinza-medio);
 }
-
 
 @media (max-width: 768px) {
   .cardsContainer {
