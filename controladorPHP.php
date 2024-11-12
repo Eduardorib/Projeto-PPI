@@ -4,8 +4,19 @@ ini_set('display_errors', 1); // Exibir os erros
 
 require "conexaoSQL.php";
 require "php/anunciante.php";
+require "php/anuncios.php";
 
-$acao = $_POST['acao'];
+
+$acaoPost = $_POST['acao'] ?? "";
+$acaoGet = $_GET['acao'] ?? "";
+
+if ($acaoPost != "") {
+  $acao = $acaoPost;
+} else if ($acaoGet != "") {
+  $acao = $acaoGet;
+} else {
+  $acao = "";
+}
 
 $pdo = mysqlConnect();
 
@@ -57,7 +68,35 @@ switch ($acao) {
     }
     break;
 
-    //-----------------------------------------------------------------
+  case "getMarcas":
+    //--------------------------------------------------------------------------------------   
+    try {
+      $marcas = Anuncios::GetMarcas($pdo);
+
+      header('Content-Type: application/json; charset=utf-8');
+      echo json_encode($marcas);
+    } catch (Exception $e) {
+      throw new Exception($e->getMessage());
+    }
+    break;
+      
+    
+  case "getModelos":
+    //--------------------------------------------------------------------------------------   
+    try {
+      $modelos = Anuncios::GetModelos($pdo, $marca);
+
+      header('Content-Type: application/json; charset=utf-8');
+      echo json_encode($modelos);
+    } catch (Exception $e) {
+      throw new Exception($e->getMessage());
+    }
+    break;
+
+  case "getLocalidades":
+    //--------------------------------------------------------------------------------------   
+    break;
+
   default:
     exit("Ação não disponível");
 }
