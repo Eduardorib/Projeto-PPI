@@ -1,6 +1,6 @@
 CREATE TABLE anunciante
 (
-  id int PRIMARY KEY auto_increment
+  id int PRIMARY KEY auto_increment,
   nome varchar(50),
   cpf varchar(50) UNIQUE,
   email varchar(50) UNIQUE,
