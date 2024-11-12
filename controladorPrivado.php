@@ -7,7 +7,16 @@ require "conexaoSQL.php";
 require "php/anunciante.php";
 require "php/anuncios.php";
 
-$acao = $_POST['acao'];
+$acaoPost = $_POST['acao'] ?? "";
+$acaoGet = $_GET['acao'] ?? "";
+
+if ($acaoPost != "") {
+  $acao = $acaoPost;
+} else if ($acaoGet != "") {
+  $acao = $acaoGet;
+} else {
+  $acao = "";
+}
 
 $pdo = mysqlConnect();
 
@@ -25,10 +34,11 @@ switch ($acao) {
     $cidade = $_POST['cidade']?? "";
 
     try {
-        Anuncios::Create($pdo, $modelo, $ano, $cor, $quilometragem, $descricao,$valor,$estado,$cidade);
+        
+        Anuncios::Create($pdo,$marca, $modelo, $ano, $cor, $quilometragem, $descricao,$valor,$estado,$cidade);
   
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['redirect' => '../login/login.html']);
+        echo json_encode(['redirect' => '../detalhamentoAnuncio/detalhamento.html']);
       } catch (Exception $e) {
         throw new Exception($e->getMessage());
       }

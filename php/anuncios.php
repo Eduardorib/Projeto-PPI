@@ -3,15 +3,15 @@
 error_reporting(E_ALL); // Relatar todos os tipos de erro
 ini_set('display_errors', 1); // Exibir os erros
 
-
+session_start();
 class Anuncios
 {
   
    
-  static function Create($pdo, $modelo, $ano, $cor, $quilometragem, $descricao,$valor,$estado,$cidade)
+  static function Create($pdo,$marca, $modelo, $ano, $cor, $quilometragem, $descricao,$valor,$estado,$cidade)
   {
     $id = $_SESSION['id'];
-    $fotos = $_FILES['fileinput'];
+    $fotos = $_FILES['fileInput']?? null;;
 
 try{
     $pdo->beginTransaction();
@@ -25,7 +25,7 @@ try{
       SQL
     );
 
-    $stmt->execute([$modelo, $ano, $cor, $quilometragem, $descricao,$valor,$dataHora,$estado,$cidade,$id]);
+    $stmt->execute([$marca,$modelo, $ano, $cor, $quilometragem, $descricao,$valor,$dataHora,$estado,$cidade,$id]);
 
     $idAnuncio = $pdo->lastInsertId();
     $pastaFotos = '../fotos/';
@@ -35,26 +35,24 @@ try{
     }
     $stmtFoto = $pdo->prepare("INSERT INTO foto (nomeArqFoto, idAnuncio) VALUES (:nomeArqFoto, :idAnuncio)");
 
-    
-    foreach ($fotos['tmp_name'] as $index => $tmpName) {
-       
-        if ($fotos['error'][$index] == UPLOAD_ERR_OK) {
-           
-            $extensao = pathinfo($fotos['name'][$index], PATHINFO_EXTENSION);
-
             
-            $nomeArqFoto = uniqid() . '.' . $extensao;
+            $arquivosTmp = is_array($fotos['tmp_name']) ? $fotos['tmp_name'] : [$fotos['tmp_name']];
+            $arquivosNome = is_array($fotos['name']) ? $fotos['name'] : [$fotos['name']];
+            $arquivosErro = is_array($fotos['error']) ? $fotos['error'] : [$fotos['error']];
 
-           
-            if (move_uploaded_file($tmpName, $pastaFotos . $nomeArqFoto)) {
-                
-                $stmtFoto->execute([
-                    ':nomeArqFoto' => $nomeArqFoto,
-                    ':idAnuncio' => $idAnuncio
-                ]);
+            foreach ($arquivosTmp as $index => $tmpName) {
+                if ($arquivosErro[$index] == UPLOAD_ERR_OK) {
+                    $extensao = pathinfo($arquivosNome[$index], PATHINFO_EXTENSION);
+                    $nomeArqFoto = uniqid() . '.' . $extensao;
+
+                    if (move_uploaded_file($tmpName, $pastaFotos . $nomeArqFoto)) {
+                        $stmtFoto->execute([
+                            ':nomeArqFoto' => $nomeArqFoto,
+                            ':idAnuncio' => $idAnuncio
+                        ]);
+                    }
+                }
             }
-          }
-        }
 
     $pdo->commit();
     return $pdo->lastInsertId();

@@ -3,9 +3,9 @@
 function mysqlConnect()
 {
   $db_host = "localhost";
-  $db_username = "mysqllocal";
-  $db_password = "localpasswd";
-  $db_name = "ObsidianMotors";
+  $db_username = "root";
+  $db_password = "";
+  $db_name = "cadastro";
 
   /*$db_host = "sql209.infinityfree.com";
   $db_username = "if0_37061487";
